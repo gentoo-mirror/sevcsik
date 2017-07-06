@@ -30,10 +30,6 @@ pkg_setup() {
 
 src_prepare() {
 	eapply_user
-	if use systemd
-	then
-		epatch $FILESDIR/${P}-systemd.patch
-	fi
 }
 
 src_compile() {
@@ -48,14 +44,19 @@ src_install() {
 	dobin cmd/ipfs/ipfs
 	if use systemd
 	then
-		systemd_dounit go-ipfs.service
+		systemd_dounit $FILESDIR/go-ipfs.service
 		elog "Systemd unit go-ipfs.service has been installed"
 	fi
 	dodir /var/lib/${PN}
+	insinto /etc/sudoers.d
+	doins $FILESDIR/go-ipfs-sudoers
 }
 
 pkg_postinst() {
 	chown ${PN}:${PN} /var/lib/${PN}
 	elog "Before starting IPFS, you need to initialise the database with:"
-	elog " sudo -u ${PN} IPFS_PATH=/var/lib/${PN} ipfs init"
+	elog " sudo -u ${PN} ipfs init"
+	elog "To use the ipfs client on the same database the server uses, the ipfs command has to be"
+	elog "invoked with the go-ipfs user. Every user in the go-ipfs group has been granted to use"
+	elog "\"sudo -u go-ipfs\" for the ipfs executable".
 }
