@@ -1,3 +1,4 @@
+app-crypt/eszemelyi-kliens-bin 1.2.8: 
 dev-util/android-studio 3.0.0.2.171.4056697 3.0.0.4.171.4141229: A new Android development environment based on IntelliJ IDEA
 net-p2p/go-ipfs 0.4.8: go-ipfs is the main implementation of IPFS.
 net-p2p/lisk 0.5.2: Full node for the Lisk Blockhain Application Platform
